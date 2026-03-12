@@ -1,0 +1,80 @@
+using System;
+
+namespace UniversityCourse
+{
+    // Abstract base class
+    abstract class Course
+    {
+        public string CourseName { get; set; }
+        public string CourseCode { get; set; }
+
+        public Course(string name, string code)
+        {
+            CourseName = name;
+            CourseCode = code;
+        }
+
+        // Abstract method
+        public abstract void EnrollStudent(string studentName);
+    }
+
+    // Online Course
+    class OnlineCourse : Course
+    {
+        public OnlineCourse(string name, string code) : base(name, code) { }
+
+        public override void EnrollStudent(string studentName)
+        {
+            Console.WriteLine(studentName + " enrolled in Online Course: " + CourseName);
+        }
+    }
+
+    // In-Person Course
+    class InPersonCourse : Course
+    {
+        int capacity = 2;
+        int enrolled = 0;
+
+        public InPersonCourse(string name, string code) : base(name, code) { }
+
+        public override void EnrollStudent(string studentName)
+        {
+            if (enrolled < capacity)
+            {
+                enrolled++;
+                Console.WriteLine(studentName + " enrolled in In-Person Course: " + CourseName);
+            }
+            else
+            {
+                Console.WriteLine("Enrollment full for " + CourseName);
+            }
+        }
+    }
+
+    // Lab Course
+    class LabCourse : Course
+    {
+        public LabCourse(string name, string code) : base(name, code) { }
+
+        public override void EnrollStudent(string studentName)
+        {
+            Console.WriteLine(studentName + " enrolled in Lab Course: " + CourseName + ". Safety training required.");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Course c1 = new OnlineCourse("AI Basics", "AI101");
+            Course c2 = new InPersonCourse("Data Structures", "CS201");
+            Course c3 = new LabCourse("Chemistry Lab", "CHL101");
+
+            c1.EnrollStudent("Shiva");
+            c2.EnrollStudent("Ravi");
+            c2.EnrollStudent("Anil");
+            c2.EnrollStudent("Priya"); // capacity check
+            c3.EnrollStudent("Kiran");
+        }
+    }
+}
